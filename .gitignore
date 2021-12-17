@@ -27,3 +27,5 @@ pnpm-debug.log*
 
 #Lock file
 yarn.lock
+
+electron-builder.yml

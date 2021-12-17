@@ -2,6 +2,7 @@
 
 import { app, BrowserWindow, ipcMain, protocol } from 'electron';
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer';
+import { autoUpdater } from 'electron-updater';
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib';
 
 import {
@@ -61,6 +62,22 @@ async function createWindow() {
     gitReader.getGitLogs(folderPath, 10).then((commitArray) => {
       event.reply(GET_GIT_LOGS_REPLY, commitArray);
     });
+  });
+
+  ipcMain.on('app_version', (event) => {
+    event.sender.send('app_version', { version: app.getVersion() });
+  });
+
+  autoUpdater.on('update-available', () => {
+    win.webContents.send('update_available');
+  });
+
+  autoUpdater.on('update-downloaded', () => {
+    win.webContents.send('update_downloaded');
+  });
+
+  ipcMain.on('restart_app', () => {
+    autoUpdater.quitAndInstall();
   });
 }
 
