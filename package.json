@@ -16,9 +16,9 @@
     "postuninstall": "electron-builder install-app-deps",
     "prepare": "husky install",
     "test": "jest",
-    "deploy": "electron-builder build --mac --win --publish always"
+    "deploy": "npm run electron:build && electron-builder build --mac --win --publish always"
   },
-  "main": "background.js",
+  "main": "main.js",
   "dependencies": {
     "core-js": "^3.6.5",
     "electron-updater": "^4.6.1",
